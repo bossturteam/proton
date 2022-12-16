@@ -11,6 +11,8 @@ begin
     if b is null then
     dbms_output.put_line('message b');
     end if;
+
+    b:=b/0;
   end if;
 
 end my_proc;

@@ -1,0 +1,7 @@
+organization=bossturteam
+projectKey=bossturteam_proton
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.35767
+dashboardUrl=https://sonarcloud.io/dashboard?id=bossturteam_proton
+ceTaskId=AYUcEbdEMCyncgPHAzzj
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AYUcEbdEMCyncgPHAzzj
