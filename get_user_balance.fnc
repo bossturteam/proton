@@ -1,21 +1,28 @@
-CREATE OR REPLACE FUNCTION get_user_balance (
-    p_username IN VARCHAR2
-) RETURN NUMBER
+CREATE OR REPLACE FUNCTION login_and_get_role (
+    p_username IN VARCHAR2,
+    p_password IN VARCHAR2
+) RETURN VARCHAR2
 IS
-    l_balance NUMBER;
-    l_sql     VARCHAR2(4000);
+    l_role VARCHAR2(100);
+    l_sql  VARCHAR2(4000);
 BEGIN
-    -- ❌ Vulnerable to SQL Injection
-    l_sql := 'SELECT balance FROM users WHERE username = '''
-             || p_username || '''';
+    -- ❌ 1. SQL Injection (username + password)
+    -- ❌ 2. Plain-text password
+    -- ❌ 3. Dynamic SQL + string concatenation
+    l_sql :=
+        'SELECT role FROM app_users ' ||
+        'WHERE username = ''' || p_username || ''' ' ||
+        'AND password = ''' || p_password || '''';
 
-    EXECUTE IMMEDIATE l_sql INTO l_balance;
+    EXECUTE IMMEDIATE l_sql INTO l_role;
 
-    RETURN l_balance;
+    -- ❌ 4. Trust result blindly
+    RETURN l_role;
 
 EXCEPTION
-    -- ❌ Overly broad exception handling (hides real problems)
+    -- ❌ 5. Swallow all exceptions
+    -- ❌ 6. Authentication bypass Admin
     WHEN OTHERS THEN
-        RETURN 0;
+        RETURN 'ADMIN';
 END;
 /
